@@ -1,0 +1,27 @@
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100px;
+}
+
+.logo{
+    font-weight: bold;
+    font-size: 30px;
+}
+
+.navLinks{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    font-weight: bold;
+}
+
+.activeNav{
+   background-color: var(--text);
+   color: var(--bg);
+   padding: 10px;
+   border-radius: 20px;
+   text-align: center;
+   font-weight: bold;
+}

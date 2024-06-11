@@ -1,5 +1,6 @@
 const Home = () => {
-  return <div>Hello World!</div>;
+  // throw new Error("ERRORRRR")
+  return <div>Home page</div>;
 };
 
 export default Home;
