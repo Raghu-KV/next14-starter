@@ -1,8 +1,48 @@
 import Image from "next/image";
 import styles from "./singlepost.module.css";
+import { getSinglePost, getSingleUser } from "@/libs/data";
 
-function singleBlogPage({ params, searchParams }) {
-  console.log(params, searchParams, "TEST_NAV");
+export const generateMetadata = async ({ params }) => {
+  const singlePost = await getSinglePost(params.blogId);
+  return {
+    title: singlePost.title,
+    description: singlePost.desc,
+  };
+};
+
+async function singleBlogPage({ params, searchParams }) {
+  console.log(params);
+
+  // const getSinglePost = async (postId) => {
+  //   const responce = await fetch(
+  //     `https://jsonplaceholder.typicode.com/posts/${postId}`,
+  //     {
+  //       cache: "no-cache",
+  //       // next: { revalidate: 3600 },
+  //     }
+  //   );
+  //   if (!responce.ok) {
+  //     throw new Error("ERROR");
+  //   }
+  //   return await responce.json();
+  // };
+
+  // const getSingleUser = async (userId) => {
+  //   const responce = await fetch(
+  //     `https://jsonplaceholder.typicode.com/users/${userId}`,
+  //     {
+  //       cache: "no-cache",
+  //       // next: { revalidate: 3600 },
+  //     }
+  //   );
+  //   if (!responce.ok) {
+  //     throw new Error("ERROR");
+  //   }
+  //   return await responce.json();
+  // };
+
+  const singlePost = await getSinglePost(params.blogId);
+  const singleUser = await getSingleUser(singlePost?.userId);
 
   return (
     <div className={styles.container}>
@@ -11,7 +51,7 @@ function singleBlogPage({ params, searchParams }) {
       </div>
 
       <div className={styles.textContainer}>
-        <h1 className={styles.title}>TITLE</h1>
+        <h1 className={styles.title}>{singlePost?.title}</h1>
         <div className={styles.detail}>
           <Image
             src={`/noavatar.png`}
@@ -23,7 +63,7 @@ function singleBlogPage({ params, searchParams }) {
 
           <div className={styles.detailText}>
             <span className={styles.detailTitle}>Author</span>
-            <span className={styles.detailValue}>Tom Hiddlson</span>
+            <span className={styles.detailValue}>{singleUser?.username}</span>
           </div>
 
           <div className={styles.detailText}>
@@ -31,12 +71,7 @@ function singleBlogPage({ params, searchParams }) {
             <span className={styles.detailValue}>01.01.24</span>
           </div>
         </div>
-        <div className={styles.content}>
-          Lorem, ipsum dolor sit amet consectetur adipisicing elit. Mollitia
-          corrupti esse pariatur dolores nulla assumenda nostrum similique
-          eligendi. Cumque voluptas quas asperiores ad placeat temporibus totam
-          itaque ut, iste vitae!
-        </div>
+        <div className={styles.content}>{singlePost?.desc}</div>
       </div>
     </div>
   );
